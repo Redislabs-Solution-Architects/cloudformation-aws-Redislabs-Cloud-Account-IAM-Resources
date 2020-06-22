@@ -7,19 +7,15 @@ Resources:
   RedisLabsClusterNodeRole:
     Type: "AWS::IAM::Role"
     Properties:
-      AssumeRolePolicyDocument: |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "ec2.amazonaws.com"
-              },
-              "Action": "sts:AssumeRole"
-            }
-          ]
-        }
+      AssumeRolePolicyDocument: 
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
       Description: Role used by EC2 instances managed by RedisLabs 
       Policies:
         - PolicyDocument: |
