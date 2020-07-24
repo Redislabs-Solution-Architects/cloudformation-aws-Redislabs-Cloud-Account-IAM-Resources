@@ -6,7 +6,7 @@ Description: |
   which are to be used to construct a RedisLabs account as per https://docs.redislabs.com/latest/rc/how-to/view-edit-cloud-account/
 
   This will construct:
-  + An instance role named 'RedisLabsInstanceRolePolicy'
+  + An instance role and profile named 'RedisLabsInstanceRolePolicy'
   + A user named 'redislabs-user' with an access key
   + A role named 'redislabs-role' granting AWS console access with MFA to the RedisLabs AWS account
 
@@ -36,6 +36,15 @@ Resources:
       Tags:
         - Key: UsedBy
           Value: RedisLabs
+
+  RedisLabsClusterNodeRoleInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    DependsOn: RedisLabsClusterNodeRole
+    Properties:
+      InstanceProfileName: redislabs-cluster-node-role
+      Roles:
+        - redislabs-cluster-node-role
+
 
   RedisLabsInstanceRolePolicy:
     Type: "AWS::IAM::ManagedPolicy"
