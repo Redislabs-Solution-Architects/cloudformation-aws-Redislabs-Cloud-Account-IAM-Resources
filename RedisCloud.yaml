@@ -307,6 +307,9 @@ Outputs:
   IamRoleName:
     Description: The name of the console role with access to the console
     Value: !Ref RedisLabsCrossAccountRole
+  UserName:
+    Description: Login username for Redis Labs User
+    Value: !Ref RedisLabsUser
   RedisLabsUserPassword:
     Description: Login password for Redis Labs User
     Value: !Sub '{{resolve:secretsmanager:${RedisLabsUserPassword}:SecretString:password}}'
