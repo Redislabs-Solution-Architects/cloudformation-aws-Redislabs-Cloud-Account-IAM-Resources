@@ -1,5 +1,5 @@
   # TL;DR
-  Create the necessary resources for Redislabs to manage subscriptions in your AWS account: <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedisCloud&templateURL=https://doa1.s3.amazonaws.com/RedisCloud.yaml">
+  Create the necessary resources for Redislabs to manage subscriptions in your AWS account: <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedisCloud&templateURL=https://s3.amazonaws.com/cloudformation-templates.redislabs.com/RedisCloud.yaml">
 <img alt="Launch RedisCloud template" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/>
 </a>
 
