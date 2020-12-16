@@ -246,6 +246,7 @@ Resources:
     Type: "AWS::SecretsManager::Secret"
     Properties:
       Description: Redis Labs User Password
+      Name: "/redislabsuser/password"
       GenerateSecretString:
         SecretStringTemplate: '{}'
         GenerateStringKey: "password"
@@ -267,6 +268,13 @@ Resources:
     Type: "AWS::IAM::AccessKey"
     Properties:
       UserName: !Ref RedisLabsUser
+
+  RedisLabsUserSecretAccessKey:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Description: Redis Labs User Secret Access Key
+      Name: '/redislabsuser/secret_access_key'
+      SecretString: !Sub ${RedisLabsUserAccessKey.SecretAccessKey}
 
   RedisLabsCrossAccountRole:
     Type: "AWS::IAM::Role"
@@ -298,22 +306,22 @@ Resources:
           Value: RedisLabs
   
 Outputs:
-  AwsSecretAccessKey:
-    Description: The AWS secret access key for the user named 'redislabs-user' 
-    Value: !Sub ${RedisLabsUserAccessKey.SecretAccessKey}
+  RedisLabsUserAwsSecretAccessKeyURL:
+    Description: URL to find the Redis Labs User's secret access key
+    Value: !Sub 'https://console.aws.amazon.com/secretsmanager/home?region=${AWS::Region}#/secret?name=/redislabsuser/password'
   AwsAccessKey:
-    Description: The AWS access key for the user named 'redislabs-user'
+    Description: Redis Labs User's AWS access key ID
     Value: !Sub ${RedisLabsUserAccessKey}
   IamRoleName:
     Description: The name of the console role with access to the console
     Value: !Ref RedisLabsCrossAccountRole
   UserName:
-    Description: Login username for Redis Labs User
+    Description: Redis Labs User's login username
     Value: !Ref RedisLabsUser
-  RedisLabsUserPassword:
-    Description: Login password for Redis Labs User
-    Value: !Sub '{{resolve:secretsmanager:${RedisLabsUserPassword}:SecretString:password}}'
+  RedisLabsUserPasswordUrl:
+    Description: URL to find the generated password for the Redis Labs User
+    Value: !Sub 'https://console.aws.amazon.com/secretsmanager/home?region=${AWS::Region}#/secret?name=%2Fredislabsuser%2Fpassword'
   ConsoleLoginUrl:
-    Description: The URL to be used to login to the account
+    Description: Redis Labs User's console login URL
     Value: !Sub 'https://${AWS::AccountId}.signin.aws.amazon.com/console'
   
