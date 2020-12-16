@@ -15,7 +15,6 @@ Description: |
   + An AWS_SECRET_ACCESS_KEY for the user 'redislabs-user'
   + The 'redislabs-role' name
     
-  
 Resources:
   RedisLabsClusterNodeRole:
     Type: "AWS::IAM::Role"
@@ -243,10 +242,20 @@ Resources:
               }
           ]
         }
-          
+  RedisLabsUserPassword:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Description: Redis Labs User Password
+      GenerateSecretString:
+        SecretStringTemplate: '{}'
+        GenerateStringKey: "password"
+        PasswordLength: 30
+                
   RedisLabsUser:
     Type: "AWS::IAM::User"
     Properties:
+      LoginProfile:
+        Password: !Sub '{{resolve:secretsmanager:${RedisLabsUserPassword}:SecretString:password}}'
       ManagedPolicyArns:
         - !Ref RedislabsIAMUserRestrictedPolicy
       Tags:
@@ -298,4 +307,10 @@ Outputs:
   IamRoleName:
     Description: The name of the console role with access to the console
     Value: !Ref RedisLabsCrossAccountRole
+  RedisLabsUserPassword:
+    Description: Login password for Redis Labs User
+    Value: !Sub '{{resolve:secretsmanager:${RedisLabsUserPassword}:SecretString:password}}'
+  ConsoleLoginUrl:
+    Description: The URL to be used to login to the account
+    Value: !Sub 'https://${AWS::AccountId}.signin.aws.amazon.com/console'
   
