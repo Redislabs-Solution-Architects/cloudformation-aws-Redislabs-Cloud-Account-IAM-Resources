@@ -16,7 +16,7 @@ provider "random" {
 }
 
 provider "aws" {
-	 profile = "redislabs"
+	 profile = "tobyhf-admin"
 	 region = "us-east-1"
 }
 
@@ -44,10 +44,14 @@ resource "aws_iam_role" "RedisLabsClusterNodeRole" {
 }
     EOT
     description = "Role used by EC2 instances managed by RedisLabs"
+    tags = {
+	UsedBy = "RedisLabs"
+    }
 }
 
 resource "aws_iam_policy" "RedisLabsInstanceRolePolicy" {
     name = "RedisLabsInstanceRolePolicy"
+    description = "Instance role policy used by Redislabs for its cluster members"
     policy = <<-EOT
 {
   "Version": "2012-10-17",
@@ -254,6 +258,9 @@ resource "aws_iam_policy" "RedislabsIAMUserRestrictedPolicy" {
 
 resource "aws_iam_user" "RedisLabsUser" {
     name = "redislabs-user"
+    tags = {
+	UsedBy = "RedisLabs"
+    }
 }
 
 resource "aws_iam_user_login_profile" "RedisLabsUserLoginProfile" {
@@ -274,6 +281,7 @@ resource "aws_iam_access_key" "RedisLabsUserAccessKey" {
 
 resource "aws_iam_role" "RedisLabsCrossAccountRole" {
     name = "redislabs-role"
+    description = "String"
     assume_role_policy = <<EOT
 {
   "Version": "2012-10-17",
@@ -293,6 +301,9 @@ resource "aws_iam_role" "RedisLabsCrossAccountRole" {
   ]
 }
     EOT
+    tags = {
+	UsedBy = "RedisLabs"
+    }
 }
 
 resource "aws_iam_role_policy_attachment" "cross-account-role-attach" {
