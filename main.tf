@@ -49,6 +49,12 @@ resource "aws_iam_role" "RedisLabsClusterNodeRole" {
     }
 }
 
+resource "aws_iam_instance_profile" "RedisLabsClusterNodeRoleInstanceProfile" {
+  name = "redislabs-cluster-node-role"
+  role = aws_iam_role.RedisLabsClusterNodeRole.name
+}
+
+
 resource "aws_iam_policy" "RedisLabsInstanceRolePolicy" {
     name = "RedisLabsInstanceRolePolicy"
     description = "Instance role policy used by Redislabs for its cluster members"
@@ -129,9 +135,6 @@ resource "aws_iam_role_policy_attachment" "cluster-node-role-attach" {
   policy_arn = aws_iam_policy.RedisLabsInstanceRolePolicy.arn
 }
 
-resource "aws_iam_instance_profile" "RedisLabsClusterNodeRoleInstanceProfile" {
-  role = aws_iam_role.RedisLabsClusterNodeRole.name
-}
 
 resource "aws_iam_policy" "RedislabsIAMUserRestrictedPolicy" {
     name = "RedislabsIAMUserRestrictedPolicy"
