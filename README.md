@@ -17,19 +17,19 @@ If you configure an AWS Cloud Account by hand you'll be [following these instruc
 
 If you configure an AWS Cloud Account using the Cloud API you'll use [this specific call](https://api.redislabs.com/v1/swagger-ui.html#/Cloud%20Accounts/createCloudAccountUsingPOST)
   
-The template will construct the necessary resources required for both approaches. It will show them in the 'output' section of the stack, except for the secrets (`AWS_SECRET_KEY` and `password`), which are stored as secrets in the AWS Secret's manager.
+The template will construct the necessary resources required for both approaches. It will show them in the 'output' section of the stack, except for the secrets (`AWS_SECRET_KEY` and `password`), which are stored as secrets in the AWS Secret's manager. For these secrets the URL is output, from whence one can find the actual secret, assuming one has sufficient permissions.
 
 The mapping between the stack outputs and the names used in the two different configuration methods is shown below:
   
 | Output | By Hand | By API|
 |---------|---|---|
-|accessKeyId | AWS_ACCESS_KEY_ID | accessKeyId |
+| IAMRoleName | IAM Role Name | - |
+| accessKeyId | AWS_ACCESS_KEY_ID | accessKeyId |
 | accessSecretKey | AWS_SECRET_ACCESS_KEY | accessSecretKey |
 | consolePassword | - | consolePassword |
-| signInLoginUrl | - | signInLoginUrl |
-| IAMRoleName | IAM Role Name | - |
 | consoleUsername| - | consoleUsername |
- 
+| signInLoginUrl | - | signInLoginUrl |
+
  # S3 Location
  The cloudformation template is stored in the publicly accessible Redislabs owned bucket at: `cloudformation-templates.redislabs.com/RedisCloud.yaml`
 

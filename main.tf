@@ -314,37 +314,5 @@ resource "aws_iam_role_policy_attachment" "cross-account-role-attach" {
   policy_arn = aws_iam_policy.RedislabsIAMUserRestrictedPolicy.arn
 }
 
-output "access_key_id" {
-    value = aws_iam_access_key.RedisLabsUserAccessKey.id
-}
-
-output "encrypted_secret_access_key" {
-    description = "Decrypt thus: terraform output encrypted_secret_access_key | tr -d \" | base64 --decode | keybase pgp decrypt" 
-    value = aws_iam_access_key.RedisLabsUserAccessKey.encrypted_secret
-    sensitive = true
-}
-
-output "IAMRoleName" {
-    description = "The name of the console role with access to the console"
-    value =  aws_iam_role.RedisLabsCrossAccountRole.name
-}
-
-output "consoleUsername" {
-    description =  "Redis Labs Users login username"
-    value = aws_iam_user.RedisLabsUser.name
-}
-
-data "aws_caller_identity" "current" {}
-
-output "signInLoginUrl" {
-    description =  "Redis Labs User's console login URL"
-    value = "https://${data.aws_caller_identity.current.account_id}.signin.aws.amazon.com/console"
-}
-
-output "consolePassword" {
-    description = "Redis Labs User's password. Decrypt thus: terraform output consolePassword | tr -d \" | base64 --decode | keybase pgp decrypt"
-    value = aws_iam_user_login_profile.RedisLabsUserLoginProfile.encrypted_password
-    sensitive = true
-}
 
 
