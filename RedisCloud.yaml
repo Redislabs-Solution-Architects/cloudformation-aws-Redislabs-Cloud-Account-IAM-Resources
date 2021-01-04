@@ -53,7 +53,7 @@ Resources:
       Fn::Transform:
        Name: 'AWS::Include'
        Parameters:
-         Location : "s3://cloudformation-templates.redislabs.com/RedisLabsInstanceRolePolicy.yaml"
+         Location : "s3://cloudformation-templates.redislabs.com/RedisLabsInstanceRolePolicySnippet.json"
         
   RedislabsIAMUserRestrictedPolicy:
     Type: "AWS::IAM::ManagedPolicy"
@@ -63,7 +63,7 @@ Resources:
       Fn::Transform:
        Name: 'AWS::Include'
        Parameters:
-         Location : "s3://cloudformation-templates.redislabs.com/RedislabsIAMUserRestrictedPolicy.yaml"
+         Location : "s3://cloudformation-templates.redislabs.com/RedislabsIAMUserRestrictedPolicySnippet.json"
   RedisLabsUserPassword:
     Type: "AWS::SecretsManager::Secret"
     Properties:

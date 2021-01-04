@@ -1,6 +1,6 @@
   # TL;DR
-  Automate the [Creating IAM Entities for AWS Cloud Accounts 
-](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) process using the following Cloudformation stack template:
+  Automate the manual [Creating IAM Entities for AWS Cloud Accounts 
+](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) process by using the following Cloudformation stack template instead:
   
   <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedisCloud&templateURL=https://s3.amazonaws.com/cloudformation-templates.redislabs.com/RedisCloud.yaml">
 <img alt="Launch RedisCloud template" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/>
@@ -9,15 +9,15 @@
 # Longer
 
 [Creating IAM Entities for AWS Cloud Accounts 
-](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) describes a manual process for creating the necessary resources so that you can subsequently _configure_ an AWS Cloud Account into your Redis Cloud Account, allowing your Redis Cloud Account to create resources in your AWS Cloud Account. This is an error-prone process. (It is also possible to _configure_ an AWS Cloud Account using the API.)
+](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) describes a manual process for creating the necessary IAM resources so that you can subsequently _configure_ an AWS Cloud Account into your Redis Cloud Account, allowing your Redis Cloud Account to create Subscription and Database resources in your AWS Cloud Account. 
 
-This repo contains a template (`RedisCloud.yaml`) to construct the necessary resources, no matter how whether you want to configure 'By Hand' or 'By API'.
+This repo contains a template (`RedisCloud.yaml`) to construct the necessary IAM resources.
 
-If you configure an AWS Cloud Account by hand you'll be [following these instructions](https://docs.redislabs.com/latest/rc/how-to/view-edit-cloud-account/)
+If you configure an AWS Cloud Account 'By Hand' you'll be [following these instructions](https://docs.redislabs.com/latest/rc/how-to/view-edit-cloud-account/)
 
 If you configure an AWS Cloud Account using the Cloud API you'll use [this specific call](https://api.redislabs.com/v1/swagger-ui.html#/Cloud%20Accounts/createCloudAccountUsingPOST)
   
-The template will construct the necessary resources required for both approaches. It will show them in the 'output' section of the stack, except for the secrets (`AWS_SECRET_KEY` and `password`), which are stored as secrets in the AWS Secret's manager. For these secrets the URL is output, from whence one can find the actual secret, assuming one has sufficient permissions.
+The template will construct the necessary IAM resources required for both approaches. It will show them in the 'output' section of the stack, _except_ for the secrets (`accessSecretKey` and `consolePassword`), which are stored as secrets in the AWS Secret's manager. For these secrets the URL is output, from whence one can find the actual secret, assuming one has sufficient permissions.
 
 The mapping between the stack outputs and the names used in the two different configuration methods is shown below:
   
@@ -30,10 +30,44 @@ The mapping between the stack outputs and the names used in the two different co
 | consoleUsername| - | consoleUsername |
 | signInLoginUrl | - | signInLoginUrl |
 
- # S3 Location
- The cloudformation template is stored in the publicly accessible Redislabs owned bucket at: `cloudformation-templates.redislabs.com/RedisCloud.yaml`
+ ## Updating
+ From time to time new policy files are produced. Simply running an update on the stack will pick up these new files and the stack will be updated accordingly.
+ 
 
-Copy the template to the bucket thus (assuming the AWS profile `redislabs`):
+# Developer Information
+
+## Prerequisite
+ We expect you to have Docker on your development machine, along with git. 
+ 
+ We expect you to have an AWS profile for the Redislabs AWS account # (we use the name 'redislabs' for that profile in the following instructions; amend as necessary for your naming convention).
+
+## S3 Location
+ The cloudformation template is stored in the publicly accessible Redislabs owned bucket `cloudformation-templates.redislabs.com`
+ 
+ The template object itself has the key `/RedisCloud.yaml`. It references two snippets, one for each of two policies. These snippets are: `/RedisLabsInstanceRolePolicySnippet.json` and `/RedislabsIAMUserRestrictedPolicySnippet.json`
+
+
+### Updating policies
+ 
+These snippets are constructed from the policies (available in raw source form on the [creating IAM Entities for AWS Cloud Accounts] page).
+ 
+To update the policies use the following procedure:
+ 
+1. Copy/paste the two files locally into the relevant json files `RedisLabsInstanceRolePolicy.json` and `RedislabsIAMUserRestrictedPolicy.json`
+2. Create the snippets using this shell script:
+
+```
+for file in RedisLabsInstanceRolePolicy.json RedislabsIAMUserRestrictedPolicy.json
+do
+	snippet=$(basename $file .json)Snippet.json
+	cat $file | jq '{ PolicyDocument: . }' >$snippet &&
+	aws s3 --profile redislabs cp $snippet s3://cloudformation-templates.redislabs.com
+done
+```
+
+### Updating the template
+
+If you need to update the template then copy it to S3 thus:
 
 ```
 aws s3 --profile redislabs cp RedisCloud.yaml s3://cloudformation-templates.redislabs.com
