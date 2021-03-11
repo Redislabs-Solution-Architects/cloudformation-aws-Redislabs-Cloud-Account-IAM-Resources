@@ -1,6 +1,6 @@
   # TL;DR
   Automate the manual [Creating IAM Entities for AWS Cloud Accounts 
-](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) process by using the following Cloudformation stack template instead:
+] process by using the following Cloudformation stack template instead:
   
   <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedisCloud&templateURL=https://s3.amazonaws.com/cloudformation-templates.redislabs.com/RedisCloud.yaml">
 <img alt="Launch RedisCloud template" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/>
@@ -9,7 +9,7 @@
 # Longer
 
 [Creating IAM Entities for AWS Cloud Accounts 
-](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) describes a manual process for creating the necessary IAM resources so that you can subsequently _configure_ an AWS Cloud Account into your Redis Cloud Account, allowing your Redis Cloud Account to create Subscription and Database resources in your AWS Cloud Account. 
+] describes a manual process for creating the necessary IAM resources so that you can subsequently _configure_ an AWS Cloud Account into your Redis Cloud Account, allowing your Redis Cloud Account to create Subscription and Database resources in your AWS Cloud Account. 
 
 This repo contains a template (`RedisCloud.yaml`) to construct the necessary IAM resources.
 
@@ -37,7 +37,10 @@ The mapping between the stack outputs and the names used in the two different co
 # Developer Information
 
 ## Prerequisite
- We expect you to have Docker on your development machine, along with git. 
+ Expected resources:
+ - AWS CLI
+ - Git
+ - JQ
  
  We expect you to have an AWS profile for the Redislabs AWS account # (we use the name 'redislabs' for that profile in the following instructions; amend as necessary for your naming convention).
 
@@ -49,7 +52,8 @@ The mapping between the stack outputs and the names used in the two different co
 
 ### Updating policies
  
-These snippets are constructed from the policies (available in raw source form on the [creating IAM Entities for AWS Cloud Accounts] page).
+These snippets are constructed from the policies (available in raw source form on the [Creating IAM Entities for AWS Cloud Accounts 
+] page).
  
 To update the policies use the following procedure:
  
@@ -72,3 +76,7 @@ If you need to update the template then copy it to S3 thus:
 ```
 aws s3 --profile redislabs cp RedisCloud.yaml s3://cloudformation-templates.redislabs.com
 ```
+
+----------
+[Creating IAM Entities for AWS Cloud Accounts 
+]: https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/
