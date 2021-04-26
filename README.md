@@ -1,10 +1,13 @@
-  # TL;DR
-  Automate the manual [Creating IAM Entities for AWS Cloud Accounts 
-] process by using the following Cloudformation stack template instead:
+  # Overview
+This module automates the manual [Creating IAM Entities for AWS Cloud Accounts](https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/) process by using the following Cloudformation stack template instead:
   
   <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=RedisCloud&templateURL=https://s3.amazonaws.com/cloudformation-templates.redislabs.com/RedisCloud.yaml">
 <img alt="Launch RedisCloud template" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/>
 </a>
+
+All you need to do to use this is click the above link and CloudFormation will do the rest.
+
+Once the resources are created you can use the `Outputs` section of CloudFormation to get the values you'll need to complete the rest of the overall [RedisLabs Cloud Account](https://docs.redislabs.com/latest/rc/how-to/view-edit-cloud-account) creation process. 
 
 # Longer
 
