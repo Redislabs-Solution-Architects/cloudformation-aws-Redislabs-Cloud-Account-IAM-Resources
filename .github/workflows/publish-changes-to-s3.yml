@@ -5,7 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUCKET: iam-resource-automation-do-not-delete
-      TEMPLATE: RedisCloud.yaml
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
@@ -25,9 +24,9 @@ jobs:
         
       
       - name: copy template when its changed
-        if: contains(steps.changed-files.outputs.all_modified_files, '${{ env.TEMPLATE }}')
+        if: contains(steps.changed-files.outputs.all_modified_files, 'RedisCloud.yaml')
         run: |
-          echo "template changed. Should run: aws s3 cp ${{ env.TEMPLATE }} s3://${{ env.BUCKET }}/"
+          echo "template changed. Should run: aws s3 cp RedisCloud.yaml s3://${{ env.BUCKET }}/"
 
       - name: List all modified files
         run: |
