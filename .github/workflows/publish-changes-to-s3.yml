@@ -28,3 +28,9 @@ jobs:
         if: contains(steps.changed-files.outputs.modified_files, ${{ env.TEMPLATE }})
         run: |
           aws s3 cp ${{ env.TEMPLATE }} s3://${{ env.BUCKET }}/
+
+      - name: List all modified files
+        run: |
+          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
+            echo "$file was modified"
+          done
