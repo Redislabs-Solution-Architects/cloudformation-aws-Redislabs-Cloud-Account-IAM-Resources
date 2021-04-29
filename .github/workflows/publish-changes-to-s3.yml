@@ -26,7 +26,7 @@ jobs:
       - name: copy template when its changed
         if: contains(steps.changed-files.outputs.all_modified_files, 'RedisCloud.yaml')
         run: |
-          echo "template changed. Should run: aws s3 cp RedisCloud.yaml s3://${{ env.BUCKET }}/"
+         aws s3 cp RedisCloud.yaml s3://${{ env.BUCKET }}/
 
       - name: List all modified files
         run: |
