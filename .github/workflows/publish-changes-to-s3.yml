@@ -2,6 +2,7 @@ name: Publish Changes
 on: push
 jobs:
   publish-changes:
+    runs-on: ubuntu-latest
     env:
       BUCKET: iam-resource-automation-do-not-delete
       TEMPLATE: RedisCloud.yaml
