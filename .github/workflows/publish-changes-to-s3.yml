@@ -22,6 +22,6 @@ jobs:
         
       
       - name: copy template when its changed
-         if: contains(steps.changed-files.outputs.modified_files, ${{ env.TEMPLATE }})
-         run: |
-           aws s3 cp ${{ env.TEMPLATE }} s3://${{ BUCKET }}/
+        if: contains(steps.changed-files.outputs.modified_files, ${{ env.TEMPLATE }})
+        run: |
+          aws s3 cp ${{ env.TEMPLATE }} s3://${{ BUCKET }}/
