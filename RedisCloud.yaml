@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  A template to construct all the necessary resources to enable 
+  A template to construct all the necessary resources to enable
   RedisCloud to manage clusters in your AWS account, as per
   https://docs.redislabs.com/latest/rc/how-to/creating-aws-user-redis-enterprise-vpc/,
   which are to be used to construct a RedisLabs account as per https://docs.redislabs.com/latest/rc/how-to/view-edit-cloud-account/
